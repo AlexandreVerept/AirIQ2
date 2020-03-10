@@ -12,7 +12,7 @@ In a way to accomplish this, we will use some machine learning and statistical t
 
 **NB:** Here you can find **[our first semester project](https://github.com/AlexandreVerept/Projet-AirIQ)**, that consisted in the forecasting of the Air Index quality in Lille, based on only few data collected by a bee hive placed on the roof of the school. We had the chance to present our project in a public event organized by the MEL (*Metropole Européenne de Lille*).
 
-![Jeudi du Numérique](Pictures\JDN.jpg)
+![Jeudi du Numérique](Pictures/JDN.jpg)
 
 ## Final product architecture
 
