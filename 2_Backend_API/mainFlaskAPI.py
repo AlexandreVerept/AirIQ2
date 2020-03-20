@@ -1,6 +1,6 @@
 # Main program of the Backend flask API
 
-from flask import Flask
+from flask import Flask, jsonify, request
 import logging
 from dataBaseUtilities import dataBaseConnector
 
@@ -8,36 +8,54 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(mess
 
 app = Flask(__name__)
 
+
 @app.route('/',methods=['GET'])
 def welcome():
     """
     Welcome the user and give him a link to the documentation/github
     """
     return("Welcome to our API")
+    
+
+@app.route('/prediction', methods = ['GET'])
+def getPredictionInformations():
+    """
+    send informations needed to make the prediction
+    """
+    dbc = dataBaseConnector()
+    return (jsonify(dbc.getInformationsDataCollector()))
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
 @app.route('/realtimepredictions',methods=['POST'])
-def realTimePredictions():
+def postRealTimePredictions():
     """
-    collect predictions of the index quality from the script python dedicated to this task
+    collect predictions of the index quality from the script python dedicated to this task and put it in the DB
     """
     dbc = dataBaseConnector()
-    return(dbc.getRealTimePredictions())
+    return(dbc.postRealTimePredictions())
+    
     
 @app.route('/informationsdatacollector', methods=['POST'])
-def informationsDataCollector():
+def postInformationsDataCollector():
     """
-    collect all datas to put into the database
+    collect all datas from the data collector to put into the DB
     """
     dbc = dataBaseConnector()
-    return(dbc.getInformationsDataCollector())
+    return(dbc.postInformationsDataCollector())
     
-@app.route('/prediction', methods = ['GET'])
-def prediction():
-    """
-    receive the dictionary and fill in the database
-    """
-    dbc = dataBaseConnector()
-    return(dbc.getInformationsDataCollector())
+    
+    
 
 if __name__ == "__main__":
     app.run()

@@ -25,10 +25,43 @@ class dataBaseConnector():
         except:
             Logger.log_error("Unable to create a cursor for the connection with the database")
             return(None)
+            
+            
+    def getInformationsDataCollector(self):
+        """
+        send informations needed to make the prediction (2 previous days):
+            - the IQ
+            - main pollutants (not yet implemented)
+            - synop data
+        """
+        
+        # 1 - the IQ:
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT value,date FROM iqtable WHERE date >= (CURDATE() - INTERVAL 2 DAY) ORDER BY date DESC"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                df = pd.DataFrame(result)
+        except:
+            Logger.log_error("Unable to do the IQ query in 'getInformationsDataCollector'")
+            return(None)
+            
+            
+            
+        return(df.to_dict())
+
+            
+            
+            
+            
+            
+            
+            
+            
     
     def postRealTimePredictions(self):
         """
-        collect predictions of the index quality from the script python dedicated to this task
+        collect predictions of the index quality from the script python dedicated to this task and put it in the DB
         """
         try:
             #récupérer l'indice de qualité de l'air et le jour associé dans le script (pas encore créé donc je ne sais pas comment le récupérer)
@@ -40,16 +73,10 @@ class dataBaseConnector():
             return(None)
         return(df.to_dict())
         
-    def getPrediction(self):
-        """
-        receive the dictionary and fill in the database
-        """
-        try : 
-            
-        
+     
     def postInformationsDataCollector(self):
         """
-        collect datas to put into the database
+        collect all datas from the data collector to put into the DB
         """
         try : 
             #récupérer les datas du data collector

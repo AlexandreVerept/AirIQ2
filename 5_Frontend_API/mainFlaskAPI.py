@@ -1,6 +1,6 @@
 # Main program of the Frontend flask API
 
-from flask import Flask
+from flask import Flask, jsonify
 import logging
 from dataBaseUtilities import dataBaseConnector
 
@@ -21,7 +21,7 @@ def allPredictions():
     retrieve all the predictions from te database
     """
     dbc = dataBaseConnector()
-    return(dbc.getAllPredictions())
+    return(jsonify(dbc.getAllPredictions()))
     
 
 if __name__ == "__main__":

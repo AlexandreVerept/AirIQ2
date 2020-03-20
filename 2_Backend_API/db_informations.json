@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "user": "max",
-  "passwd": "airiq",
+  "user": "root",
+  "passwd": "Gousse212",
   "db": "airiq"
-}
+} 
