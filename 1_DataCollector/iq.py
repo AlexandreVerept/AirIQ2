@@ -4,15 +4,15 @@ import json
 from logger import Logger
     
 class iqCollector():    
-    def collectRealtimeIQ(self):
+    def collectRealtimeIQ(self,number_of_days=2):
         """
-        get the air index quality of the last 2 days
+        get the air index quality of the last days
         
         Return: a panda dataframe with the data (and None if there is an error)
         """
         #make a request:
         try:
-            request = "https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=indice-qualite-de-lair&sort=date_ech&rows=2"
+            request = "https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=indice-qualite-de-lair&sort=date_ech&rows={}".format(number_of_days)
             with urllib.request.urlopen(request) as jsonfile:
                 data = json.loads(jsonfile.read().decode())
         except:
