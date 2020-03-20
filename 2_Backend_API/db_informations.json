@@ -1,6 +1,6 @@
 {
-  "host": "34.66.219.37",
-  "user": "backendAPI",
-  "passwd": "airiqAPI",
+  "host": "localhost",
+  "user": "root",
+  "passwd": "Gousse212",
   "db": "airiq"
-}
+} 
