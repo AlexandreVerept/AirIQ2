@@ -13,7 +13,7 @@ def welcome():
     """
     Welcome the user and give him a link to the documentation/github
     """
-    return("Welcome to our API")
+    return("Welcome to our frontend API, you can find documentation here: https://github.com/AlexandreVerept/AirIQ2/blob/master/2_Backend_API/README.md")
 
 @app.route('/allpredictions',methods=['GET'])
 def allPredictions():

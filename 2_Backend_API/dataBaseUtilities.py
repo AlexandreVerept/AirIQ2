@@ -38,43 +38,51 @@ class dataBaseConnector():
         # 1 - the IQ:
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT value,date FROM iqtable WHERE date >= (CURDATE() - INTERVAL 2 DAY) ORDER BY date DESC"
+                sql = "SELECT value,date FROM iqtable WHERE date >= (CURDATE() - INTERVAL 1 DAY) ORDER BY date DESC"
                 cursor.execute(sql)
                 result = cursor.fetchall()
-                df = pd.DataFrame(result)
+                dfiq = pd.DataFrame(result)
         except:
             Logger.log_error("Unable to do the IQ query in 'getInformationsDataCollector'")
             return(None)
             
+        # 2 - the main pollutants
+        # TODO when the shape of the data will be define
+        
+        
+        
+        # 3 - synop data
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT pressure,wind_direction,wind_force,date FROM synoptable WHERE date >= (CURDATE() - INTERVAL 1 DAY) ORDER BY date DESC"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                dfsynop = pd.DataFrame(result)
+        except:
+            Logger.log_error("Unable to do the IQ query in 'getInformationsDataCollector'")
+            return(None)
             
-            
-        return(df.to_dict())
-
-            
-            
-            
-            
-            
-            
-            
+        return(dfiq.to_dict(),dfsynop.to_dict())
             
     
-    def postRealTimePredictions(self):
+    def postRealTimePredictions(self, request): # TODO !!!!
         """
         collect predictions of the index quality from the script python dedicated to this task and put it in the DB
         """
+        if not request:
+            return(None)
         try:
             #récupérer l'indice de qualité de l'air et le jour associé dans le script (pas encore créé donc je ne sais pas comment le récupérer)
             with self.connection.cursor() as cursor:
                 sql = "INSERT INTO predictiontable(value,dateofprediction) "
                 cursor.execute(sql)
         except:
-            Logger.log_error("Unable to do the query in 'getRealTimePredictions'")
+            Logger.log_error("Unable to do the query in 'postRealTimePredictions'")
             return(None)
-        return(df.to_dict())
+        return()
         
      
-    def postInformationsDataCollector(self):
+    def postInformationsDataCollector(self, request): # TODO !!!!
         """
         collect all datas from the data collector to put into the DB
         """
@@ -84,6 +92,6 @@ class dataBaseConnector():
                 sql = ""
                 cursor.execute(sql)
         except:
-            Logger.log_error("Unable to do the query in 'getInformationsDataCollector'")
+            Logger.log_error("Unable to do the query in 'postInformationsDataCollector'")
             return (None)
-        return (df.to_dict())
+        return ()
