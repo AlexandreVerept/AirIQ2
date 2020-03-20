@@ -1,7 +1,8 @@
 import csv
 import requests
 
-CSV_URL = 'https://donneespubliques.meteofrance.fr/?fond=donnee_libre&prefixe=Txt%2FSynop%2Fsynop&extension=csv&date=20200310&reseau=09'
+dateRequest = 20200310
+CSV_URL = "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Synop/synop.{}09.csv".format(str(dateRequest))
 
 
 with requests.Session() as s:

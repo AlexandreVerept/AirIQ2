@@ -29,9 +29,9 @@ class pollutantCollector():
             dico = []
             for k in listeDesFields:
                 try:
-                    dico.append({'date' : k['date_debut'][0:10],'value' : k['valeur'],'name_poll' : k['nom_poll'],'city' : k['nom_com']})
+                    dico.append({'date' : k['date_fin'][0:10],'value' : k['valeur'],'name_poll' : k['nom_poll'],'city' : k['nom_com']})
                 except: #sometimes the values are not defined
-                    dico.append({'date' : k['date_debut'][0:10],'value' : None,'name_poll' : k['nom_poll'],'city' : k['nom_com']})
+                    dico.append({'date' : k['date_fin'][0:10],'value' : None,'name_poll' : k['nom_poll'],'city' : k['nom_com']})
             df = pd.DataFrame(dico)
         except:
             Logger.log_error("Error while processing the MEL data from the API (pollutantCollector - collectRealtimePollutant)")
