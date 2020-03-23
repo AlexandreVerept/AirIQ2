@@ -23,6 +23,10 @@ if __name__ == "__main__":
     mySynopCollector = synopCollector()
     synop = mySynopCollector.collectRealtimeSynop()
     
+    print(iq)
+    print(pollutant)
+    print(synop)
+    
     # send to the API
     url = 'http://127.0.0.1:5000/test'
     r = requests.post(url, json=iq.to_dict())
