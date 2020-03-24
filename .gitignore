@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# tensorboard
+*.DESKTOP-N06I0S3
+.DESKTOP-N06I0S3
+*.DESKTOP-N06I0S3.*
+local.trace
