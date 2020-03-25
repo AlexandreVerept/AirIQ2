@@ -1,0 +1,58 @@
+---
+title: "DataVisualisationAirIQ"
+author: "Maxiuments\me THOOR"
+date: "25/03/2020"
+output: html_document
+---
+Répertoire de travail
+```{r}
+setwd("~/4ème année ISEN/AirIQ2/0_ResearchWork/5_DataVisualisation")
+```
+
+Importation du dataset en local
+```{r}
+dataset = read.table("completeDataset.csv", header = T, sep = ";")
+```
+
+Affichage des premières lignes du dataset 
+```{r}
+dataset[,1:7]
+```
+
+Indice de qualité de l'air : Quantification (exemple)
+```{r}
+nb =0
+for(iq in dataset$IQ){
+  if(iq == 2){
+    nb= nb+1
+  }
+}
+# Puis on divise par 8 car nous avons 8 fois le même indice de qualité de l'air sur une journée
+nb1 = nb/8
+print(paste("Nombre de lignes pour un IQ = 2 : ",nb1))
+```
+
+Visualisation globale
+```{r}
+apply(dataset[,-2],2,summary)
+```
+
+Graphique date/Indice de qualité de l'air
+```{r}
+library("ggplot2")
+View(dataset)
+
+g = ggplot(dataset,aes(x=date, y=IQ,axes=F,type='o'))+ geom_point()
+g = g+xlab("Date")+ylab("Indice de qualite de l'air")+ggtitle("Indice de qualité de l'air par date")
+g
+```
+
+Histogramme Indice de qualité de l'air
+```{r}
+
+a = ggplot(dataset,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+a = a +ggtitle("Fréquence d'apparition des différentes valeurs d'indice de qualité de l'air")
+a = a + scale_fill_manual(breaks=c(1,2,3,4,5,6,7,8,9,10))
+a
+```
+
