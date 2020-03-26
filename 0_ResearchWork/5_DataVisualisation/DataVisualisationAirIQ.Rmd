@@ -34,7 +34,7 @@ print(paste("Nombre de lignes pour un IQ = 2 : ",nb1))
 
 Visualisation globale
 ```{r}
-apply(dataset[,-2],2,summary)
+summary(dataset)
 ```
 
 Graphique date/Indice de qualité de l'air
@@ -52,7 +52,85 @@ Histogramme Indice de qualité de l'air
 
 a = ggplot(dataset,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
 a = a +ggtitle("Fréquence d'apparition des différentes valeurs d'indice de qualité de l'air")
-a = a + scale_fill_manual(breaks=c(1,2,3,4,5,6,7,8,9,10))
 a
+```
+
+Comparaison temperature avec indice qualité de l'air
+```{r}
+temp_moy = mean(dataset$temperature)
+
+new_dataset_temp_froide = dataset[which(dataset$temperature<temp_moy),]
+new_dataset_temp_chaude = dataset[which(dataset$temperature>temp_moy),]
+
+b = ggplot(new_dataset_temp_froide,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+b = b + ylim(0,1600)
+b
+
+new_dataset_temp_chaude = dataset[which(dataset$temperature>temp_moy),]
+
+c = ggplot(new_dataset_temp_chaude,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
+c = c + ylim(0,1600)
+c
+```
+
+Comparaison avec l'humidite et l'indice de qualité de l'air
+```{r}
+hum_moy = mean(dataset$humidity)
+
+dataset_faible_humidite = dataset[which(dataset$humidity<hum_moy),]
+
+d = ggplot(dataset_faible_humidite,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+d
+
+dataset_forte_humidite = dataset[which(dataset$humidity>hum_moy),]
+
+e = ggplot(dataset_forte_humidite,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
+e
+```
+
+Comparaison pression avec IQ 
+```{r}
+press_moy = mean(dataset$pressure)
+
+dataset_faible_pression = dataset[which(dataset$pressure<press_moy),]
+
+d = ggplot(dataset_faible_pression,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+d = d + ylim(0,1600) 
+d
+
+dataset_forte_pression = dataset[which(dataset$pressure>press_moy),]
+
+e = ggplot(dataset_forte_pression,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
+e = e + ylim(0,1600)
+e
+```
+
+Comparaison force du vent avec IQ 
+```{r}
+force_moy = mean(dataset$wind_force)
+
+dataset_faible_force = dataset[which(dataset$wind_force<force_moy),]
+
+d = ggplot(dataset_faible_force,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+d = d + ylim(0,1600) 
+d
+
+dataset_forte_force = dataset[which(dataset$wind_force>force_moy),]
+
+e = ggplot(dataset_forte_force,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
+e = e + ylim(0,1600)
+e
+```
+
+
+Evolution de différents paramètres en fonction du temps
+```{r}
+library("cowplot")
+
+h = ggplot(dataset,aes(x=date, y=temperature))+geom_point(colour = "blue")
+l = ggplot(dataset,aes(x=date, y=humidity))+geom_point(colour = "red")
+m = ggplot(dataset,aes(x=date, y=pressure))+geom_point(colour = "green")
+           
+plot_grid(h, l, m,  labels=c("A", "B", "C"))
 ```
 
