@@ -6,7 +6,7 @@ output: html_document
 ---
 Répertoire de travail
 ```{r}
-setwd("~/4ème année ISEN/AirIQ2/0_ResearchWork/5_DataVisualisation")
+setwd("~/4ème année ISEN/AirIQ2/0_ResearchWork/6_DataVisualisation")
 ```
 
 Importation du dataset en local
@@ -132,5 +132,23 @@ l = ggplot(dataset,aes(x=date, y=humidity))+geom_point(colour = "red")
 m = ggplot(dataset,aes(x=date, y=pressure))+geom_point(colour = "green")
            
 plot_grid(h, l, m,  labels=c("A", "B", "C"))
+```
+
+```{r}
+aggregate(dataset[,-2], as.data.frame(dataset$IQ), mean)
+```
+
+Afficher un graphe pour chaque IQ en fonction de la direction du vent
+```{r}
+library(dplyr)
+
+dataset_direction_vent %>%
+  group_by(wind_direction,IQ) %>%
+  summarise(nb=n()) %>%
+  mutate(pourcentage = nb / sum(nb) * 100)
+p = ggplot(dataset_direction_vent,aes(x=wind_direction))+geom_histogram(binwidth=1)
+p = p+facet_wrap(~IQ)
+p
+  
 ```
 
