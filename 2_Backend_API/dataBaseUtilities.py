@@ -29,7 +29,7 @@ class dataBaseConnector():
             
     def getInformationsDataCollector(self):
         """
-        send informations needed to make the prediction (2 previous days):
+        send informations needed to make the prediction (3 previous days):
             - the IQ
             - main pollutants (not yet implemented)
             - synop data
@@ -38,7 +38,7 @@ class dataBaseConnector():
         # 1 - the IQ:
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT value,date FROM iqtable WHERE date >= (CURDATE() - INTERVAL 1 DAY) ORDER BY date DESC"
+                sql = "SELECT value,date FROM iqtable WHERE date >= (CURDATE() - INTERVAL 2 DAY) ORDER BY date DESC"
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 dfiq = pd.DataFrame(result)
@@ -54,7 +54,7 @@ class dataBaseConnector():
         # 3 - synop data
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT pressure,wind_direction,wind_force,date FROM synoptable WHERE date >= (CURDATE() - INTERVAL 1 DAY) ORDER BY date DESC"
+                sql = "SELECT pressure,wind_direction,wind_force,temperature,humidity,date FROM synoptable WHERE date >= (CURDATE() - INTERVAL 2 DAY) ORDER BY date DESC"
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 dfsynop = pd.DataFrame(result)
@@ -94,4 +94,4 @@ class dataBaseConnector():
         except:
             Logger.log_error("Unable to do the query in 'postInformationsDataCollector'")
             return (None)
-        return ()
+        return()
