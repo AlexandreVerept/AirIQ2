@@ -69,6 +69,8 @@ class dataBaseConnector():
         """
         collect predictions of the index quality from the script python dedicated to this task and put it in the DB
         """
+        
+        """
         if not request:
             return(None)
         try:
@@ -78,20 +80,47 @@ class dataBaseConnector():
                 cursor.execute(sql)
         except:
             Logger.log_error("Unable to do the query in 'postRealTimePredictions'")
-            return(None)
-        return()
+            return(None)"""
+            
+        return("lol")
         
      
-    def postInformationsDataCollector(self, request): # TODO !!!!
+    def postInformationsDataCollector(self, request, typeOfValue):
         """
         collect all datas from the data collector to put into the DB
         """
-        try : 
-            #récupérer les datas du data collector
-            with self.connection.cursor() as cursor:
-                sql = ""
-                cursor.execute(sql)
-        except:
-            Logger.log_error("Unable to do the query in 'postInformationsDataCollector'")
-            return (None)
-        return()
+        
+        def saveRow(row,typeOfValue):
+            """
+            request to put a row of iq data in the db
+            """
+            try:
+                # define the query
+                if typeOfValue=="iq":
+                    sql = 'INSERT INTO iqtable(date,value) VALUES (%s, %s);'
+                    val = (str(row["date"]), row["value"])
+                elif typeOfValue=="synop":
+                    sql = 'INSERT INTO synoptable(date,pressure,wind_direction,wind_force,humidity,temperature) VALUES (%s, %s, %s, %s, %s, %s);'
+                    val = (row["date"], row["pressure"], row["wind_direction"], row["wind_force"], row["humidity"], row["temperature"])
+                elif typeOfValue=="pollutant":
+                    print("pollutant not yet implemented !") # TODO
+                    
+                else:
+                    raise ValueError('Wrong type of value')
+                    
+                # execute the query
+                with self.connection.cursor() as cursor:
+                    cursor.execute(sql,val)
+                    self.connection.commit()
+            except Exception as e:
+                if (type(e).__name__) == "IntegrityError": # this exception occur when there is a dupplicate line
+                    print("Already in database ?",val)
+                else:
+                    Logger.log_error(f"Unable to do the query in 'dataBaseConnector - postInformationsDataCollector'")
+
+        # put the request in a dataframe    
+        df = pd.DataFrame.from_dict(request)
+        # execute a request for each row
+        df.apply(lambda x: saveRow(x,typeOfValue),axis=1)            
+        return("ok")
+        

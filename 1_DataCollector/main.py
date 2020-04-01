@@ -6,8 +6,7 @@ from iq import iqCollector
 from pollutant import pollutantCollector
 from synop import synopCollector
 import pandas as pd
-
-import requests
+from dataUtilities import dataLinker
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
@@ -15,19 +14,20 @@ if __name__ == "__main__":
     
     # collect iq from the last 2 days and print it for now:
     myIqCollector = iqCollector()
-    iq = myIqCollector.collectRealtimeIQ()
+    iq = myIqCollector.collectRealtimeIQ(1000)
     
-    myPollutantCollector = pollutantCollector()
-    pollutant = myPollutantCollector.collectRealtimePollutant()
+    #myPollutantCollector = pollutantCollector()
+    #pollutant = myPollutantCollector.collectRealtimePollutant(3)
     
     mySynopCollector = synopCollector()
-    synop = mySynopCollector.collectRealtimeSynop()
+    synop = mySynopCollector.collectRealtimeSynop(40000)
     
     print(iq)
-    print(pollutant)
+    #print(pollutant)
     print(synop)
     
-    # send to the API
-    url = 'http://127.0.0.1:5000/test'
-    r = requests.post(url, json=iq.to_dict())
-    print(r.status_code)
+    dl = dataLinker()
+    dl.postIQ(iq)
+    #dl.postPolutant(pollutant)
+    dl.postSynop(synop)
+    

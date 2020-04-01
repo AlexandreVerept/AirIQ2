@@ -45,13 +45,13 @@ def postRealTimePredictions():
     return(dbc.postRealTimePredictions(request.get_json()))
 
     
-@app.route('/informationsdatacollector', methods=['POST'])
-def postInformationsDataCollector():
+@app.route('/infodatacollector/<typeOfValue>', methods=['POST'])
+def postInformationsDataCollector(typeOfValue):
     """
     collect all datas from the data collector to put into the DB
     """
     dbc = dataBaseConnector()
-    return(dbc.postInformationsDataCollector(request.get_json()))
+    return(dbc.postInformationsDataCollector(request.get_json(),typeOfValue))
 
 
 if __name__ == "__main__":
