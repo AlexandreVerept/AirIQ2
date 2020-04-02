@@ -63,13 +63,13 @@ new_dataset_temp_froide = dataset[which(dataset$temperature<temp_moy),]
 new_dataset_temp_chaude = dataset[which(dataset$temperature>temp_moy),]
 
 b = ggplot(new_dataset_temp_froide,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
-b = b + ylim(0,1600)
+b = b + ylim(0,4000)
 b
 
 new_dataset_temp_chaude = dataset[which(dataset$temperature>temp_moy),]
 
 c = ggplot(new_dataset_temp_chaude,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
-c = c + ylim(0,1600)
+c = c + ylim(0,4000)
 c
 ```
 
@@ -80,11 +80,13 @@ hum_moy = mean(dataset$humidity)
 dataset_faible_humidite = dataset[which(dataset$humidity<hum_moy),]
 
 d = ggplot(dataset_faible_humidite,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
+d = d + ylim(0,4500)
 d
 
 dataset_forte_humidite = dataset[which(dataset$humidity>hum_moy),]
 
 e = ggplot(dataset_forte_humidite,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
+e = e + ylim(0,4500)
 e
 ```
 
@@ -95,13 +97,13 @@ press_moy = mean(dataset$pressure)
 dataset_faible_pression = dataset[which(dataset$pressure<press_moy),]
 
 d = ggplot(dataset_faible_pression,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
-d = d + ylim(0,1600) 
+d = d + ylim(0,4000) 
 d
 
 dataset_forte_pression = dataset[which(dataset$pressure>press_moy),]
 
 e = ggplot(dataset_forte_pression,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
-e = e + ylim(0,1600)
+e = e + ylim(0,4000)
 e
 ```
 
@@ -112,13 +114,13 @@ force_moy = mean(dataset$wind_force)
 dataset_faible_force = dataset[which(dataset$wind_force<force_moy),]
 
 d = ggplot(dataset_faible_force,aes(x=IQ))+geom_histogram(fill="blue",colour="black",binwidth=1)
-d = d + ylim(0,1600) 
+d = d + ylim(0,4000) 
 d
 
 dataset_forte_force = dataset[which(dataset$wind_force>force_moy),]
 
 e = ggplot(dataset_forte_force,aes(x=IQ))+geom_histogram(fill="red",colour="black",binwidth=1)
-e = e + ylim(0,1600)
+e = e + ylim(0,4000)
 e
 ```
 
@@ -141,6 +143,8 @@ aggregate(dataset[,-2], as.data.frame(dataset$IQ), mean)
 Afficher un graphe pour chaque IQ en fonction de la direction du vent
 ```{r}
 library(dplyr)
+
+dataset_direction_vent = dataset[,c(1,4)]
 
 dataset_direction_vent %>%
   group_by(wind_direction,IQ) %>%
