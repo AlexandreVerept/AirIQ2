@@ -26,14 +26,14 @@ def test():
     print(r)
     return(r)
     
-
-@app.route('/prediction', methods = ['GET'])
-def getPredictionInformations():
+@app.route('/prediction', defaults={'numberOfDays': 2}, methods = ['GET'])
+@app.route('/prediction/<numberOfDays>', methods = ['GET'])
+def getPredictionInformations(numberOfDays):
     """
     send informations needed to make the prediction
     """
     dbc = dataBaseConnector()
-    return(jsonify(dbc.getInformationsDataCollector()))
+    return(jsonify(dbc.getDataNeededPrediction(numberOfDays)))
     
     
 @app.route('/realtimepredictions',methods=['POST'])
@@ -45,13 +45,13 @@ def postRealTimePredictions():
     return(dbc.postRealTimePredictions(request.get_json()))
 
     
-@app.route('/informationsdatacollector', methods=['POST'])
-def postInformationsDataCollector():
+@app.route('/infodatacollector/<typeOfValue>', methods=['POST'])
+def postInformationsDataCollector(typeOfValue):
     """
     collect all datas from the data collector to put into the DB
     """
     dbc = dataBaseConnector()
-    return(dbc.postInformationsDataCollector(request.get_json()))
+    return(dbc.postInformationsDataCollector(request.get_json(),typeOfValue))
 
 
 if __name__ == "__main__":
