@@ -3,6 +3,7 @@ from tensorflow import keras
 from keras.models import Model
 from keras.models import load_model
 from logger import Logger
+import numpy as np
 
 class predictionMaker():
     """
@@ -20,13 +21,11 @@ class predictionMaker():
         except:
             Logger.log_error("Unable to load the model in the predictionMaker")
         
-    def makePrediction(self,data):
+    def makePrediction(self,x_pred):
         """
         make a prediction
         params: data needed for the prediction
         return: prediction
         """
-
-        y_pred = self.model.predict()
-        print(y_pred)
-        return(y_pred)
+        y_pred = self.model.predict(x_pred)
+        return(np.array(y_pred).reshape(3))

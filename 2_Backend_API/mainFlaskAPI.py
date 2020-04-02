@@ -26,14 +26,14 @@ def test():
     print(r)
     return(r)
     
-
-@app.route('/prediction', methods = ['GET'])
-def getPredictionInformations():
+@app.route('/prediction', defaults={'numberOfDays': 2}, methods = ['GET'])
+@app.route('/prediction/<numberOfDays>', methods = ['GET'])
+def getPredictionInformations(numberOfDays):
     """
     send informations needed to make the prediction
     """
     dbc = dataBaseConnector()
-    return(jsonify(dbc.getInformationsDataCollector()))
+    return(jsonify(dbc.getDataNeededPrediction(numberOfDays)))
     
     
 @app.route('/realtimepredictions',methods=['POST'])
