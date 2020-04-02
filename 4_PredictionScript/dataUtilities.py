@@ -110,13 +110,14 @@ class dataLinker():
         return(np.array(x_pred),dayConsidered)
         
         
-    def postResult(self,prediction,dayConsidered):
+    def postResult(self,y_pred,dayConsidered):
         """
         Post the result of the prediction in the API
         """
-        if not prediction:
-            return(None)
+        dic = {"dayConsidered": dayConsidered}
+        for i,pred in enumerate(y_pred):
+            dic["J+{}".format(i+1)] = str(pred)
             
-        response = requests.post(url = self.infos["URL"]+"realtimepredictions", data = prediction)
+        response = requests.post(url = self.infos["URL"]+"realtimepredictions", json = dic)
         if not response.ok:
             Logger.log_error("Unable to POST the prediction")
