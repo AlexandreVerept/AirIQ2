@@ -12,7 +12,7 @@ In a way to accomplish this, we will use some machine learning and statistical t
 
 **NB:** Here you can find **[our first semester project](https://github.com/AlexandreVerept/Projet-AirIQ)**, that consisted in the forecasting of the Air Index quality in Lille, based on only few data collected by a bee hive placed on the roof of the school. We had the chance to present our project in a public event organized by the MEL (*Metropole Européenne de Lille*).
 
-![Jeudi du Numérique](Pictures/JDN.jpg)
+[![Jeudi du Numérique](Pictures/JDN.jpg)](https://github.com/AlexandreVerept/Projet-AirIQ)
 
 ## Final product architecture
 
@@ -50,11 +50,11 @@ The datasets we use must be a real time data to be useful for the prediction, bu
 
 **Potential open data APIs to exploit :**
 
-| Name                                                         | Source       | Description                                                  | Frequency     | Time frame        |
-| ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ | ------------- | ----------------- |
-| [*Indice qualité de l'air*](https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/table/?rows=10000&lang=&sort=date_ech) | MEL          | Air index quality                                            | Every day     | Window of 2 years |
-| *[Mesures journalières des principaux polluants](https://opendata.lillemetropole.fr/explore/dataset/mesures-journalieres-des-principaux-polluants/table/?sort=date_fin&refine.nom_com=Lille&refine.nom_station=Lille+Leeds)* | MEL          | Value of the main pollutants                                 | Every day     | Window of 2 years |
-| *[Données SYNOP Essentielles OMM](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=90&id_rubrique=32)* | Météo France | Wide range of weather data including wind, pressure, humidity and temperature | Every 3 hours | Since 1997        |
+| Name                                                         | Source       | Description                                                  | Frequency     | Time frame                                                   |
+| ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ | ------------- | ------------------------------------------------------------ |
+| [*Indice qualité de l'air*](https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/table/?rows=10000&lang=&sort=date_ech) | MEL          | Air index quality                                            | Every day     | Window of 5 years with the dataset the MEL send us and the public data online. |
+| *[Mesures journalières des principaux polluants](https://opendata.lillemetropole.fr/explore/dataset/mesures-journalieres-des-principaux-polluants/table/?sort=date_fin&refine.nom_com=Lille&refine.nom_station=Lille+Leeds)* | MEL          | Value of the main pollutants                                 | Every day     | Window of 2 years.                                           |
+| *[Données SYNOP Essentielles OMM](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=90&id_rubrique=32)* | Météo France | Wide range of weather data including wind, pressure, humidity and temperature | Every 3 hours | Since 1997.                                                  |
 
 
 
