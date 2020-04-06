@@ -12,15 +12,15 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(mess
 
 if __name__ == "__main__":
     
-    # collect iq from the last 2 days and print it for now:
+    # collect iq
     myIqCollector = iqCollector()
-    iq = myIqCollector.collectRealtimeIQ(10)
+    iq = myIqCollector.collectRealtimeIQ(30)
     
     #myPollutantCollector = pollutantCollector()
     #pollutant = myPollutantCollector.collectRealtimePollutant(3)
     
     mySynopCollector = synopCollector()
-    synop = mySynopCollector.collectRealtimeSynop(10)
+    synop = mySynopCollector.collectRealtimeSynop(30)
     
     print(iq)
     #print(pollutant)

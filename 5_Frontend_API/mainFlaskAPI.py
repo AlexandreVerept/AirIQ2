@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify
 import logging
-from dataBaseUtilities import dataBaseConnector
+from dataBaseUtilitiesFE import dataBaseConnector
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
@@ -15,6 +15,7 @@ def welcome():
     """
     return("Welcome to our frontend API, you can find documentation here: https://github.com/AlexandreVerept/AirIQ2/blob/master/2_Backend_API/README.md")
 
+
 @app.route('/allpredictions',methods=['GET'])
 def allPredictions():
     """
@@ -22,6 +23,16 @@ def allPredictions():
     """
     dbc = dataBaseConnector()
     return(jsonify(dbc.getAllPredictions()))
+    
+    
+@app.route('/getprediction', defaults={'numberOfDays': 0}, methods = ['GET'])
+@app.route('/getprediction/<numberOfDays>', methods = ['GET'])
+def getPredictions(numberOfDays):
+    """
+    retrieve all the predictions from te database for the last x days
+    """
+    dbc = dataBaseConnector()
+    return(jsonify(dbc.getLastsPredictions(numberOfDays)))
     
 
 if __name__ == "__main__":
