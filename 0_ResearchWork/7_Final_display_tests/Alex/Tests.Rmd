@@ -1,0 +1,21 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+require("jsonlite")
+require("httr")
+
+prediction <- GET("http://127.0.0.1:5000/allpredictions")
+prediction <- fromJSON(content(prediction, "text"))
+
+prediction <- lapply(prediction, function(x) {
+  x[sapply(x, is.null)] <- NA
+  unlist(x)
+})
+
+df_prediction<-as.data.frame(do.call("cbind", prediction))
+```
+```{r}
+head(df_prediction)
+```
