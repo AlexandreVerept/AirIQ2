@@ -14,9 +14,13 @@ library(ggplot2)
 data=read.csv("https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", head=TRUE, sep=";")
 keeps = c("date_ech", "valeur")
 data = data[keeps]
-data$date_ech <- as.Date(data$date_ech, "%Y-%m-%d")
+names(data)[names(data)=="date_ech"] <- "date"
+data$date <- as.Date(data$date, "%Y-%m-%d")
 ```
 
+```{r}
+head(data)
+```
 
 
 
@@ -46,28 +50,63 @@ df_prediction<-as.data.frame(do.call("cbind", prediction))
 ```{r}
 df_prediction$value = as.numeric(as.character(df_prediction$value))
 df_prediction$dateofprediction = as.Date(df_prediction$dateofprediction, format = "%Y-%m-%d")
+names(df_prediction)[names(df_prediction)=="dateofprediction"] <- "date"
+names(df_prediction)[names(df_prediction)=="value"] <- "predictValue"
 head(df_prediction)
 ```
+
+Concatenate both datasets iq and prediction
 ```{r}
-listOfdf = split(df_prediction, df_prediction$typeofprediction)
+library(dplyr)
+concat_df = left_join(df_prediction, data, by="date")
+```
+
+
+```{r}
+listOfdf = split(concat_df, concat_df$typeofprediction)
 head(listOfdf)
 ```
 
 ```{r}
-JplusUn = listOfdf[[1]]
-JplusDeux = listOfdf[[2]]
-JplusTrois = listOfdf[[3]]
+#JplusUn = listOfdf[[1]]
+#JplusDeux = listOfdf[[2]]
+#JplusTrois = listOfdf[[3]]
+```
+```{r}
+listOfdf[[1]]
 ```
 
 
 ```{r}
 library(ggplot2)
-ggplot(data=JplusUn, aes(x=dateofprediction, y=value)) +
-    geom_line(col=rgb(0.1,0.7,0.1,0.8)) +
-    geom_point(shape=21, color="black", fill=rgb(0.1,0.7,0.1,0.8), size=6) +
-    ggtitle("Prediction J+1")
+library(ggthemes)
+count = 0
+for(JPlusX in listOfdf){
+  count=count+1
+  p = ggplot(data=JPlusX, aes(x=date)) +
+    
+    ylim(0,10)+
+  
+    geom_line(aes(y=predictValue), 
+              color = "darkred", 
+              linetype="twodash") +
+    geom_point(aes(y=predictValue),
+               shape=21, color="black", 
+               fill="darkred", 
+               size=4)+
+  
+    geom_line(aes(y = valeur), 
+              color=rgb(0.1,0.7,0.1,0.8))  +
+    geom_point(aes(y=valeur),
+               shape=21, color="black", 
+               fill=rgb(0.1,0.7,0.1,0.8), 
+               size=4)+
+    ggtitle(sprintf("Prediction J+%s",count))+
+    
+    theme_hc()
+  
+  print(p)
+}
 ```
-
-
 
 
