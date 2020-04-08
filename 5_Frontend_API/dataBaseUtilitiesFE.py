@@ -38,6 +38,7 @@ class dataBaseConnector():
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 df = pd.DataFrame(result)
+                df['dateofprediction'] = df['dateofprediction'].astype(str)
         except:
             Logger.log_error("Unable to do the query in 'getAllPredictions'")
             return(None)
@@ -54,6 +55,7 @@ class dataBaseConnector():
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 df = pd.DataFrame(result)
+                df['dateofprediction'] = df['dateofprediction'].astype(str)
         except:
             Logger.log_error("Unable to do the query in 'getAllPredictions'")
             return(None)

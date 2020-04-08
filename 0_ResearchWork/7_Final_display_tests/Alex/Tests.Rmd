@@ -1,12 +1,39 @@
 ---
-title: "R Notebook"
+title: "Test Notebook"
 output: html_notebook
 ---
+
+## Display IQ
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+data=read.csv("https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", head=TRUE, sep=";")
+keeps = c("date_ech", "valeur")
+data = data[keeps]
+data$date_ech <- as.Date(data$date_ech, "%Y-%m-%d")
+```
+
+
+
+
+## Display all predictions made
+
 ```{r}
 require("jsonlite")
 require("httr")
+```
 
-prediction <- GET("http://127.0.0.1:5000/allpredictions")
+
+```{r}
+url = "http://127.0.0.1:5000/"
+command = "allpredictions"
+
+request = paste(url, command, sep="")
+prediction <- GET(request)
 prediction <- fromJSON(content(prediction, "text"))
 
 prediction <- lapply(prediction, function(x) {
@@ -17,5 +44,30 @@ prediction <- lapply(prediction, function(x) {
 df_prediction<-as.data.frame(do.call("cbind", prediction))
 ```
 ```{r}
+df_prediction$value = as.numeric(as.character(df_prediction$value))
+df_prediction$dateofprediction = as.Date(df_prediction$dateofprediction, format = "%Y-%m-%d")
 head(df_prediction)
 ```
+```{r}
+listOfdf = split(df_prediction, df_prediction$typeofprediction)
+head(listOfdf)
+```
+
+```{r}
+JplusUn = listOfdf[[1]]
+JplusDeux = listOfdf[[2]]
+JplusTrois = listOfdf[[3]]
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(data=JplusUn, aes(x=dateofprediction, y=value)) +
+    geom_line(col=rgb(0.1,0.7,0.1,0.8)) +
+    geom_point(shape=21, color="black", fill=rgb(0.1,0.7,0.1,0.8), size=6) +
+    ggtitle("Prediction J+1")
+```
+
+
+
+
