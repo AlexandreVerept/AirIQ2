@@ -1773,20 +1773,10 @@ data$date_ech &lt;- as.Date(data$date_ech, &quot;%Y-%m-%d&quot;)</code></pre>
 <h2>Display all predictions made</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShcImpzb25saXRlXCIpXG5gYGAifQ== -->
-<pre class="r"><code>require(&quot;jsonlite&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShcImpzb25saXRlXCIpXG5yZXF1aXJlKFwiaHR0clwiKVxuYGBgIn0= -->
+<pre class="r"><code>require(&quot;jsonlite&quot;)
+require(&quot;httr&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGUgY2hhcmdlbWVudCBhIG7mlLzjuLljZXNzaXTmlLzjuLkgbGUgcGFja2FnZSA6IGpzb25saXRlXG5sZSBwYWNrYWdlIOOkvOO4sWpzb25saXRl46S847iyIGEg5pS847i5dOaUvOO4uSBjb21waWzmlLzjuLkgYXZlYyBsYSB2ZXJzaW9uIFIgMy42LjNcbiJ9 -->
-<pre><code>Le chargement a n攼㸹cessit攼㸹 le package : jsonlite
-le package 㤼㸱jsonlite㤼㸲 a 攼㸹t攼㸹 compil攼㸹 avec la version R 3.6.3</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShcImh0dHJcIilcbmBgYCJ9 -->
-<pre class="r"><code>require(&quot;httr&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGUgY2hhcmdlbWVudCBhIG7mlLzjuLljZXNzaXTmlLzjuLkgbGUgcGFja2FnZSA6IGh0dHJcbmxlIHBhY2thZ2Ug46S847ixaHR0cuOkvOO4siBhIOaUvOO4uXTmlLzjuLkgY29tcGls5pS847i5IGF2ZWMgbGEgdmVyc2lvbiBSIDMuNi4zXG4ifQ== -->
-<pre><code>Le chargement a n攼㸹cessit攼㸹 le package : httr
-le package 㤼㸱httr㤼㸲 a 攼㸹t攼㸹 compil攼㸹 avec la version R 3.6.3</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -1817,7 +1807,7 @@ df_prediction&lt;-as.data.frame(do.call(&quot;cbind&quot;, prediction))</code></
 df_prediction$dateofprediction = as.Date(df_prediction$dateofprediction, format = &quot;%Y-%m-%d&quot;)
 head(df_prediction)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJtWTJSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TXdIVXVadzhWMERTRDJRZGtDakdWRHB0d2ZBREZRRFdaTnpFb3VMZ1F3QkpFRVdsOFNTVkNEOUQyZ0pMOGdTaUlWZ3pBVEZqQkNNYWxoZVltNHF6REEybUpNTllBeERHTU1JeGpDR01VeGdERk0wSTlseVVzdFNjMkJtTWtORm1iMjBEUkZNSXdUVEdLS2Q2VCthajlqU0VwTkw4b3NnZm1LQUJKencybkxEL3FPc0RrSkpMZmZQR1FZNmlHZDR4NTVKL3VnZ2VLL1JsZS92S1FmUjExV0xZbnVySEhpUFAycHkyTjRBTVpuNVA1cFRCRktBWVpXZlZsQ1VtcEtaWEpLWm53Y1RMNmtzd0NiT1dwYVlVNXFLNWt2T292eHlQYW9GSG9idnVZQnVUTlJMS3dKYUFBa0JGTXZaOHd0QTdnTmF6UVJLV2F4b21obUwwQVQ0Uy9OQVRrM1JUYzRvemN2V05RTlpnRWdRREx4UW1nMkp6WXdXZUt5d2FFbk5TOC9NUzRVRlRVNWlVbW9PbE1NSERCSndpT2dWRkdYbWxjQjhBaFF0MWl2SkwwbUVxZU5LenMrQmlVQmk5eDhBRmk5MGtGRURBQUE9In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6Nn0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJtWTJSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TXdIVXVadzhWMERTRDJRZGtDakdWRHB0d2ZBREZRRFdaTnpFb3VMZ1F3QkpFRVdsOFNTVkNEOUQyZ0pMOGdTaUlWZ3pBVEZqQkNNYWxoZVltNHF6REEybUpNTllBeERHTU1JeGpDR01VeGdERk0wSTlseVVzdFNjMkJtTWtORm1iMjBEUkZNSXdUVEdLS2Q2VCthajlqU0VwTkw4b3NnZm1LQUJKencybkxEL3FPc0RrSkpMZmZQR1FZNmlHZDR4NTVKL3VnZ2VLL1JsZS92S1FmUjExV0xZbnVySEhpUFAycHkyTjRBTVpuNVA1cFRCRktBWVpXZlZsQ1VtcEtaWEpLWm53Y1RMNmtzd0NiT1dwYVlVNXFLNWt2T292eHlQYW9GSG9idnVZQnVUTlJMS3dKYUFBa0JGTXZaOHd0QTdnTmF6UVJLV2F4b21obUwwQVQ0Uy9OQVRrM1JUYzRvemN2V3RRUlpnRWdRREx4UW1nMkp6WXdXZUt5d2FFbk5TOC9NUzRVRlRVNWlVbW9PbE1NSERCSndpT2dWRkdYbWxjQjhBaFF0MWl2SkwwbUVxZU5LenMrQmlVQmk5eDhBSzlxTXoxRURBQUE9In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["dateofprediction"],"name":[1],"type":["date"],"align":["right"]},{"label":["typeofprediction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-04-10","2":"J+3","3":"4.91940","_rn_":"0"},{"1":"2020-04-09","2":"J+3","3":"4.59621","_rn_":"1"},{"1":"2020-04-09","2":"J+2","3":"5.85185","_rn_":"2"},{"1":"2020-04-08","2":"J+2","3":"4.46729","_rn_":"3"},{"1":"2020-04-08","2":"J+1","3":"5.47996","_rn_":"4"},{"1":"2020-04-07","2":"J+1","3":"3.72260","_rn_":"5"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
@@ -1833,7 +1823,7 @@ head(listOfdf)</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiJGBKKzFgXG4ifQ== -->
 <pre><code>$`J+1`</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJtWTJSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TXdIb2gwdXZnTXBaM0M0K1BZQWhIN1RBQlpBMWNpYW5KTllYQXhrQ0NBSnNyZ2tscVFDNlg5QWMzZ2hoZ0xsNEJqVmdMekUzRlNZQWN3dzU1akFHS1l3aGdXYVByYWMxTExVSEhTTnpGN2FoZ2ltRVlKcEROSE85Qi9OcVd4cGlja2wrVVVReHpKQWZDNzZ1bXBSYkcrVkErL3hSMDBPMnhzY0JCNkxyem55dmhOaUF2Ti9OQ3NGVW9DZXpVOHJLRXBOeVV3dXljelBnNG1YVkJaZ0UyY3RTOHdwVFVYekRXZFJmcmtlYVNHQjRSVXVvRU1TOWRLS2dLWkF2SU5pQTN0K0FjZ1JRUE9aUVBITWlxYVpzUWhOZ0w4MEQrU2VGTjNrak5LOGJGMXprQVZJMGNnTHBabFIyU2doeEFvTDQ5Uzg5TXk4VkpqL2N4S1RVbk9nSEQ2Z3Y4SGUxaXNveXN3cmdma0VLRnFzVjVKZmtnaFR4NVdjbndNVGdVVFZQd0FOMG5NMDN3SUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJtWTJSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TXdIb2gwdXZnTXBaM0M0K1BZQWhIN1RBQlpBMWNpYW5KTllYQXhrQ0NBSnNyZ2tscVFDNlg5QWMzZ2hoZ0xsNEJqVmdMekUzRlNZQWN3dzU1akFHS1l3aGdXYVByYWMxTExVSEhTTnpGN2FoZ2ltRVlKcEROSE85Qi9OcVd4cGlja2wrVVVReHpKQWZDNzZ1bXBSYkcrVkErL3hSMDBPMnhzY0JCNkxyem55dmhOaUF2Ti9OQ3NGVW9DZXpVOHJLRXBOeVV3dXljelBnNG1YVkJaZ0UyY3RTOHdwVFVYekRXZFJmcmtlYVNHQjRSVXVvRU1TOWRLS2dLWkF2SU5pQTN0K0FjZ1JRUE9aUVBITWlxYVpzUWhOUUtBMEQrU2VGTjNrak5LOGJGMURBNUFOU1BISUM2V1pVZGtvUWNRS0MrVFV2UFRNdkZSWUFPUWtKcVhtUURsOFFJK0QvYTFYVUpTWlZ3THpDbEMwV0s4a3Z5UVJwbzRyT1Q4SEpnS0pxMzhBMC81MmxPQUNBQUE9In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["dateofprediction"],"name":[1],"type":["date"],"align":["right"]},{"label":["typeofprediction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-04-08","2":"J+1","3":"5.47996","_rn_":"4"},{"1":"2020-04-07","2":"J+1","3":"3.72260","_rn_":"5"},{"1":"2020-04-02","2":"J+1","3":"4.22177","_rn_":"8"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
@@ -1844,7 +1834,7 @@ head(listOfdf)</code></pre>
 <pre><code>
 $`J+2`</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJwVlJzVTdETUJDOXhFbFFJN1VVTVREeUFWVWpOUkhxR29teXdJS1l1akNZMUtVUnhvNVN0OERJNS9BWHpLaExmNEF2UUVnc2JMVFljYTBTdzhKZ3ZlZnozYnQ3NTR2Qk1BbUhJUUFnUUlFRHlKY1VndVB6WG53VUEzaXV2RG5nUVVQaHZjemFyMUlCdFJTbXkvZFU1VXNFalcvUEZha1graG5GMDZrazdSOUJiNEFGa2JpU09rMHRDdTcyMUFVWXZpVkdBSmx4WWtNU1EvcFdYVURKbkZDN0VKMTJlbHNhYjJtaXk5MjFOV293eHBuZ3BSNFd0UE9EeWRubEl2dEk5MTRmVDFwZkwybmpzUE8wL0hTMEFscGJMZHNqYVphUGk1S004a3prbkptNGVDaitpdnR6VEdmRWN0TW8rVjMwdjAzOHNoTEtRWEEwTHFXS3RsUHJzTU1MTllUVWQ5VS8rMWF4VTFxQjNSbFQ4NHk2MldUR2JycDkxYUI2MXFlNVFWVG50UTM1WnNlRVhlZU1HUDhVWHhHNnViU2s3OHAyVkpRNUU4YUpqRTRqd1FVMmVXSEdxWW5vcjFwOUEveEhiTUxmQWdBQSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJwVlJzVTdETUJDOXhFbFFJclVxWW1Ea0E2cEdOQkZpalVSWllFRk1YUmhNNnRJSVkwZXBXMkRrYy9nTFpzVFNIK0FMRUJJTEd5MTJYS3ZFc0RCWTcvbDg5KzdlK1h3d1RLTmhCQUFJVU9BQThpV0Y0T2lzbnh3a0FKNHJidzU0RUNxOGsxazdkU3FndHNKczhaNnBmSW1nOGUycEpzMUNQNmQ0T3BXazh5UG9EYkFnRXBkU3A2VkZ3ZDJjcGdERE44UUlJRE5PWWtocXlLRlZGMUF5SjlRdVJDZmQvb1ltRzVycWNuZGxqUnFNY1M1NHBZY0Y3WHgzY25yeGtuOWsyNjhQeCsydjV5emM2ejR1UGgydGdGWld5ODVJbXVYanNpS2pJaGNGWnlZdTdzdS80djRjMHhteDNJUVZ2NDMvdDRsZlZpSTVDSTdIbFZUUmRob2R0bmlwaHBENnJ2cG4zeXAyS2l2UW1URTF6NmlYVDJic3V0ZmZWeDNxZDMxYWEwUk4zbGlSYjVaTTJGWEJpRmtBeFplRXJpOXRhYnoySFpkVndZU3hJcVBUV0hDQlRWNlVjMm9pK3ErVzM4d2pPbDdnQWdBQSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["dateofprediction"],"name":[1],"type":["date"],"align":["right"]},{"label":["typeofprediction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-04-09","2":"J+2","3":"5.85185","_rn_":"2"},{"1":"2020-04-08","2":"J+2","3":"4.46729","_rn_":"3"},{"1":"2020-04-03","2":"J+2","3":"3.14022","_rn_":"7"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
@@ -1855,7 +1845,7 @@ $`J+2`</code></pre>
 <pre><code>
 $`J+3`</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJtWTJSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TXdIb2gwdXZtc0FxUWZTRGhENkxRTUVvR2hrVGM1SkxDNEdNZ1NRQkZsY0VrdFNnZlEvb0RtOEVFT1JNYW9CZVltNXFUQURtR0hPTVlBeERHRU1NelI5YkRtcFphazU2QnFadmJRTkVVd2pCTk1Zb3AzcFA1cFQyZElTazB2eWl5Q09aWUQ0WEhodHVXSC9VVllIb2FTVysrY01BeDFZVjcvWUl6WkhCV0lDODM4MEt3VlNnSjdOVHlzb1NrM0pUQzdKek0rRGlaZFVGbUFUWnkxTHpDbE5SZk1OWjFGK3VSNXBJWUhoRlM2Z1F4TDEwb3FBcGtDOGcySURlMzRCeUJGQTg1bEE4Y3lLcHBteENFMkF2elFQNUo0VTNlU00wcnhzWFhPUUJXQnBDT2FGMHN5b2JKUVFZb1dGY1dwZWVtWmVLc3ovT1lsSnFUbFFEaC9RMzJCdjZ4VVVaZWFWd0h3Q0ZDM1dLOGt2U1lTcDQwck96NEdKUUtMcUh3QS9uKzdDM3dJQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6M30sInJkZiI6Ikg0c0lBQUFBQUFBQUJwVlJzVTdETUJDOTFIVlFJN1dxcU1RWHNLRkdUU3FZSTlHSkNaaTZ1cWtMRWNhT1VyZUZqWUdkSCtBUEVIL0F5b3JFRjdDeXdDZTAySEd0Tm9hRlNOWjd2dHk5dTNjK0h3ejd3VEFBQUFUSTl3QmhSY0UvUG8zaXd4aWdYbE0zRCtyUTBIaWpzanBsS3FDV3h1VDkrMDduSzB3TWZvSDVLb1U0WldRNlZhUzlGYXdQaUtRS2wwcW5hVVMzVDFXQWsydHFCWkFkcDJkSlpNbVJVK2N6T3FmTUxVUW5COUdHeGh2YU4rVzFsVE9xUHlHcEZJVVpGb3p6enZNaWVuakZ5ZTdvL3VNdE9rdncwK2ZMM3VPK1VVQXJwMlY3ck15S1NWN1FjWmJLVEhBYmw3ZjVYM0U4SjJ4R0hUZU5RaXpDLzIzaWw1VkFEVUxDU2FGVWpKMUtoeDJSNnlHVWZrMi9NM2FLdmNJSnRHZGN6elB1cHBjemZ0V05lcnBEK2QrYzVocFJsVmRXaE8yU0tiL0lPTFVMWUdSRTJmclNVc1pMMzJGZVpGeGFLeW82RGFXUXhPWUZxV0EyWXQ1cStRTWVNbGRjNEFJQUFBPT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["dateofprediction"],"name":[1],"type":["date"],"align":["right"]},{"label":["typeofprediction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-04-10","2":"J+3","3":"4.91940","_rn_":"0"},{"1":"2020-04-09","2":"J+3","3":"4.59621","_rn_":"1"},{"1":"2020-04-04","2":"J+3","3":"2.70894","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
