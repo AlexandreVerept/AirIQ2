@@ -6,21 +6,40 @@ output: html_document
 ---
 
 ```{r}
-# Work space
-setwd("~/4ème année ISEN/AirIQ2/6_Final_Display")
+#Import datas from lille
+data=read.csv("https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", head=TRUE, sep=";")
+keeps = c("date_ech", "valeur")
+data = data[keeps]
+data$date_ech <- as.Date(data$date_ech, "%Y-%m-%d")
+
 
 # Load packages 
 library(shiny)
+library(ggplot2)
+library(rjson)
+library(gridExtra)
 
 #Load datas
 data_airiq = read.csv(file = "completeDataset.csv", header = T, sep = ";" )
 
 #User interface
-ui <- fluidPage(
-  titlePanel("Prediction for the air index quality in Lille"),
-  
-  p("Here, you can find our prediction at D+1, D+2 and D+3."),
+ui <- navbarPage("AirIQ - Visualize our results",
+                 tabPanel("Prediction for the air index quality in Lille", 
+                          sidebarLayout(
+                            sidebarPanel(
+                              selectInput("IQ",
+                                          label = "Choose a prediction to display", 
+                                          choices = c("Prediction J+1","Prediction J+2","Prediction J+3"),
+                                          selected = "Prediction J+1")
+                            )
+                          )
+                 )
 )
+                 
+  
+  
+
+
 
 # Server logic
 server <- function(input, output) {
