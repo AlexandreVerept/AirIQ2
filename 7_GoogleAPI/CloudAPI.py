@@ -11,9 +11,9 @@ app = Flask(__name__)
 @app.route('/',methods=['GET'])
 def welcome():
     """
-    Welcome the user and give him a link to the documentation/github
+    Welcome the user and give him a link to the documentation
     """
-    return("Welcome to our API. You can find the documentation here: https://github.com/AlexandreVerept/AirIQ2/blob/master/")
+    return("Welcome to our API. You can find the documentation here: https://github.com/AlexandreVerept/AirIQ2/blob/master/7_GoogleAPI/README.md")
     
     
 @app.route('/test',methods=['POST'])

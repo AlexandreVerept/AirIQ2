@@ -14,6 +14,10 @@ In a way to accomplish this, we will use some machine learning and statistical t
 
 [![Jeudi du Numérique](Pictures/JDN.jpg)](https://github.com/AlexandreVerept/Projet-AirIQ)
 
+## The result
+
+See the **[result here !](https://alexandre-verept.shinyapps.io/App-prediction/)** (a bit empty for now as the project is not yet over)
+
 ## Final product architecture
 
 Here is the general structure of our solution:
@@ -28,7 +32,6 @@ Here is the general structure of our solution:
 
 - <u>Receive useful data</u> from the `Data Collector` to store it in the `Data base`.
 - <u>Provide data</u> to our real time `Prediction script`, <u>receive the results of the predictions</u> and store them in the `Data base`.
-- This API is <u>password protected</u> as it should only be used by us.
 
 **Data Base:**
 
@@ -40,9 +43,8 @@ Here is the general structure of our solution:
 
 **Final display:**
 
-- If we have time, it could be interesting to create a website/application to see our predictions.
+- Please see [the result](https://alexandre-verept.shinyapps.io/App-prediction/) here made in R with Shiny.
 
-  
 
 ## Open data
 
