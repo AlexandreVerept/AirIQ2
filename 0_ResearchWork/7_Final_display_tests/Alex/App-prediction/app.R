@@ -15,7 +15,7 @@ names(data)[names(data)=="date_ech"] <- "date"
 data$date <- as.Date(data$date, "%Y-%m-%d")
 
 #Import datas from our API
-url = "http://127.0.0.1:5000/"
+url = "https://airiq-271312.appspot.com//"
 command = "allpredictions"
 request = paste(url, command, sep="")
 prediction <- GET(request)
@@ -104,7 +104,8 @@ server <- function(input, output) {
   
   output$dateRangeIQ <- renderPlot({
     p1=ggplot(data = data, aes(x = date, y = valeur))+
-      geom_line(color = "orange", size = 0.5)+ xlim(input$dateRangeIQ)
+      geom_line(color = rgb(0.1,0.7,0.1,0.8), size = 0.5)+ xlim(input$dateRangeIQ)+
+      theme_hc()
     
     date = data[data$date >= input$dateRangeIQ[1] & data$date <= input$dateRangeIQ[2],]
     
@@ -112,11 +113,12 @@ server <- function(input, output) {
              geom="histogram",
              breaks=seq(0, 10, by = 1),
              binwidth = 1,
-             fill=I("orange"), 
-             col=I("red"),
+             fill=I(rgb(0.1,0.7,0.1,0.8)), 
+             col=I("black"),
              main = "Histogram of IQ values", 
              xlab = "Index",
-             xlim=c(1,10))
+             xlim=c(1,10))+
+      theme_hc()
     
     grid.arrange(p1,p2, ncol=1)
   })
