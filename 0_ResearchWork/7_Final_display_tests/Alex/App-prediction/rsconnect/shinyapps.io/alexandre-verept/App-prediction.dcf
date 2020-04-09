@@ -1,0 +1,12 @@
+name: App-prediction
+title: App-prediction
+username:
+account: alexandre-verept
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2087490
+bundleId: 2992243
+url: https://alexandre-verept.shinyapps.io/App-prediction/
+when: 1586440923.79751
+asMultiple: FALSE
+asStatic: FALSE
