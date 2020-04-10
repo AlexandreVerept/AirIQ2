@@ -14,13 +14,13 @@ if __name__ == "__main__":
     
     # collect iq
     myIqCollector = iqCollector()
-    iq = myIqCollector.collectRealtimeIQ(30)
+    iq = myIqCollector.collectRealtimeIQ(10)
     
     #myPollutantCollector = pollutantCollector()
     #pollutant = myPollutantCollector.collectRealtimePollutant(3)
     
     mySynopCollector = synopCollector()
-    synop = mySynopCollector.collectRealtimeSynop(30)
+    synop = mySynopCollector.collectRealtimeSynop(10)
     
     print(iq)
     #print(pollutant)
