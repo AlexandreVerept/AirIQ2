@@ -1,6 +1,3 @@
-import tensorflow as tf
-from tensorflow import keras
-from keras.models import Model
 from keras.models import load_model
 from logger import Logger
 import numpy as np
@@ -27,5 +24,11 @@ class predictionMaker():
         params: data needed for the prediction
         return: prediction
         """
+        # make prediction
         y_pred = self.model.predict(x_pred)
-        return(np.array(y_pred).reshape(3))
+        # reshape answer
+        y_out = []
+        for i in y_pred:
+            y_out.append(np.argmax(i,axis=1))
+        y_out = np.array(y_out)+1
+        return(np.array(y_out).reshape(3))

@@ -23,3 +23,10 @@ CREATE TABLE IF NOT EXISTS predictiontable (
     typeofprediction VARCHAR(3) NOT NULL CHECK(typeofprediction='J+1' or typeofprediction='J+2' or typeofprediction='J+3'),
 	insertdate DATE,
 	PRIMARY KEY (id));
+    
+CREATE TABLE IF NOT EXISTS poltable (
+	NO2 INT NOT NULL CHECK(NO2>=0 and NO2<=10),
+    O3 INT NOT NULL CHECK(O3>=0 and O3<=10),
+    PM10 INT NOT NULL CHECK(PM10>=0 and PM10<=10),
+	date DATE NOT NULL UNIQUE,
+	PRIMARY KEY (date));

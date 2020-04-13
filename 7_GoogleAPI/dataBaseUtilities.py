@@ -48,9 +48,15 @@ class dataBaseConnector():
             return(None)
             
         # 2 - the main pollutants
-        # TODO when the shape of the data will be define
-        
-        
+        try:
+            with self.connection.cursor() as cursor:
+                sql = f"SELECT date,NO2,O3,PM10 FROM poltable WHERE date >= (CURDATE() - INTERVAL {x} DAY) ORDER BY date DESC"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                dfpol = pd.DataFrame(result)
+        except:
+            Logger.log_error("Unable to do the pollutants query in 'getInformationsDataCollector'")
+            return(None)        
         
         # 3 - synop data
         try:
@@ -60,10 +66,10 @@ class dataBaseConnector():
                 result = cursor.fetchall()
                 dfsynop = pd.DataFrame(result)
         except:
-            Logger.log_error("Unable to do the IQ query in 'getInformationsDataCollector'")
+            Logger.log_error("Unable to do the Synop query in 'getInformationsDataCollector'")
             return(None)
             
-        return(dfiq.to_dict(),dfsynop.to_dict())
+        return(dfiq.to_dict(),dfsynop.to_dict(),dfpol.to_dict())
             
     
     def postRealTimePredictions(self, request):
@@ -76,7 +82,7 @@ class dataBaseConnector():
             dayConsidered = datetime.strptime(request["dayConsidered"], '%Y-%m-%d')
         try:
             for i in range(1,4):
-                val = (float(request[f"J+{i}"])*10, str(dayConsidered + timedelta(days=i)), f"J+{i}", str(date.today()))
+                val = (float(request[f"J+{i}"]), str(dayConsidered + timedelta(days=i)), f"J+{i}", str(date.today()))
                 
                 with self.connection.cursor() as cursor:
                     sql = "INSERT INTO predictiontable(value,dateofprediction,typeofprediction,insertdate) VALUES (%s, %s, %s, %s);"
@@ -107,8 +113,8 @@ class dataBaseConnector():
                     sql = 'INSERT INTO synoptable(date,pressure,wind_direction,wind_force,humidity,temperature) VALUES (%s, %s, %s, %s, %s, %s);'
                     val = (row["date"], row["pressure"], row["wind_direction"], row["wind_force"], row["humidity"], row["temperature"])
                 elif typeOfValue=="pollutant":
-                    print("pollutant not yet implemented !") # TODO
-                    
+                    sql = 'INSERT INTO poltable(NO2,O3,PM10,date) VALUES (%s, %s, %s, %s);'
+                    val = (row["NO2"], row["O3"], row["PM10"],row["date"])
                 else:
                     raise ValueError('Wrong type of value')
                     
@@ -117,6 +123,7 @@ class dataBaseConnector():
                     cursor.execute(sql,val)
                     self.connection.commit()
             except Exception as e:
+
                 if (type(e).__name__) == "IntegrityError": # this exception occur when there is a dupplicate line
                     #print("Already in database ?",val)
                     None

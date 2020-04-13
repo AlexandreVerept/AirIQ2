@@ -10,7 +10,7 @@ class dataLinker():
     """
     def __init__(self):
         try:
-            with open('API_informations.json') as json_file:
+            with open('API_informations.json') as json_file: #TODO change test to cloud
                 self.infos = json.load(json_file)
         except:
             Logger.log_error("Unable to load API_informations.json")

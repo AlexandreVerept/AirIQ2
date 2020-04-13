@@ -1,7 +1,9 @@
 import pandas as pd
-import urllib.request
-import json
+import requests
 from logger import Logger
+from datetime import datetime
+import numpy as np
+import os
 
 class pollutantCollector():    
     def collectRealtimePollutant(self,number_of_days=2):
@@ -10,37 +12,42 @@ class pollutantCollector():
         
         Return: a panda dataframe with the data (and None if there is an error)
         """
-        #make a request:
+        # download data
         try:
-            request = "https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=mesures-journalieres-des-principaux-polluants&rows={}&sort=date_fin&refine.nom_com=Lille&refine.nom_station=Lille+Fives".format(number_of_days*4)
-            with urllib.request.urlopen(request) as jsonfile:
-                data = json.loads(jsonfile.read().decode())
+            URL = 'https://www.atmo-hdf.fr/acceder-aux-donnees/historique-des-indices-de-l-air.html?format=csv'
+            r = requests.get(URL)
+            filename = "export_{}.csv".format(datetime.now().strftime("%d%m%Y"))
+            with open(filename,'wb') as output_file:
+                output_file.write(r.content)
         except:
-            Logger.log_error("Unable to connect to the MEL API (pollutantCollector - collectRealtimePollutant)")
+            Logger.log_error("Unable to import the data (pollutantCollector - collectRealtimePollutant)")
+            try:
+                os.remove(filename)
+            except:
+                None
             return(None)
-            
-        #treat the response:
+           
         try:
-            listeDesRecords = data['records']
-            listeDesFields = []
-            for r in listeDesRecords: # we get each field of the answer
-                listeDesFields.append(r['fields']) 
-            #print(listeDesFields)
-            dico = []
-            for k in listeDesFields:
-                try:
-                    dico.append({'date' : k['date_fin'][0:10],'value' : k['valeur'],'name_poll' : k['nom_poll'],'city' : k['nom_com']})
-                except: #sometimes the values are not defined
-                    dico.append({'date' : k['date_fin'][0:10],'value' : None,'name_poll' : k['nom_poll'],'city' : k['nom_com']})
-            df = pd.DataFrame(dico)
+            #data cleaning
+            df = pd.read_csv(filename,header=0,delimiter=";",encoding="latin_1")
+            os.remove(filename)
+            interestingFeatures = ["Date","Dioxyde d'azote (NO2)","Ozone (O3)","Poussières PM10"]
+            df = df[interestingFeatures]
+            df.columns = ["date", "NO2", "O3", "PM10"]   
+            
+            df = df.drop(0) # drop today as the measures are made at the end of the day
+            df = df.replace("/", np.nan)
+            df = df.replace("N/D", np.nan)
+            df = df.fillna(method='ffill')
+                
+            df = df.head(number_of_days)
         except:
-            Logger.log_error("Error while processing the MEL data from the API (pollutantCollector - collectRealtimePollutant)")
-            return(None)  
+            Logger.log_error("Error while shaping the data (pollutantCollector - collectRealtimePollutant)")
+            try:
+                os.remove(filename)
+            except:
+                None
+            return(None)
         
-        # if some values are missing we fill in the gaps:
-        if df.isnull().values.any():
-            nan_rows = df[df['value'].isnull()]
-            for pollutant in nan_rows.name_poll.unique():
-                df[df['name_poll'] == pollutant] = df[df['name_poll'] == pollutant].fillna(method='ffill')
             
         return(df)

@@ -36,21 +36,25 @@ class dataLinker():
         
         try:
             # convert to dataframe
-            dfiq,dfsynop = pd.DataFrame.from_dict(data[0]),pd.DataFrame.from_dict(data[1])
+            dfiq,dfsynop,dfp = pd.DataFrame.from_dict(data[0]),pd.DataFrame.from_dict(data[1]),pd.DataFrame.from_dict(data[2])
         
             # Shape the data:
             # 1 - mix the datasets: 
             #(please see "MixDatasets.ipynb" in the data cleaning section of our researchs for more information)
             dfiq['date'] = pd.to_datetime(dfiq['date'],utc=True)
             dfsynop['date'] = pd.to_datetime(dfsynop['date'],utc=True)
+            dfp['date'] = pd.to_datetime(dfp['date'],utc=True)
         
             def getDay(row):
                 return(row["date"].year,row["date"].month,row["date"].day)
 
             dfsynop["day"] = dfsynop.apply(lambda row: getDay(row), axis=1)
             dfiq["day"] = dfiq.apply(lambda row: getDay(row), axis=1)
+            dfp["day"] = dfiq.apply(lambda row: getDay(row), axis=1)
+            dfp = dfp.drop(columns="date")
         
             df = pd.merge(dfiq, dfsynop, how='inner', on="day")
+            df = pd.merge(df,dfp, how='inner', on="day")
             df = df.drop(columns=["date_x","day"])
             df = df.rename(columns={"date_y":"date", "value":"IQ"})
             df = df.drop_duplicates()
@@ -58,7 +62,7 @@ class dataLinker():
             # 2 - select what we need and shaping
             # Please see "0_ResearchWork\4_SecondModel\ModelLSTM_Alex.ipynb" for more information
         
-            features_considered = ['IQ','pressure','wind_direction','wind_force','humidity','temperature']
+            features_considered = ['IQ','pressure','wind_direction','wind_force','humidity','temperature','NO2','O3','PM10']
             features = df[features_considered]
             features.index = df['date']
 
@@ -72,25 +76,37 @@ class dataLinker():
             max_temperature = max(higher_value(dataset_test, 5))
 
             #normalize
-            features['IQ'] = features['IQ'].apply(lambda x: x/10)
+            features['NO2'] = features['NO2'].apply(lambda x: x/10)
+            features['O3'] = features['O3'].apply(lambda x: x/10)
+            features['PM10'] = features['PM10'].apply(lambda x: x/10)
+            
             features['pressure'] = features['pressure'].apply(lambda x: x/max_pressure)
             features['wind_force'] = features['wind_force'].apply(lambda x: x/max_wind_force)
             features['humidity'] = features['humidity'].apply(lambda x: x/100)
             features['temperature'] = features['temperature'].apply(lambda x: (x-273.15)/(max_temperature-273.15)) 
 
+            # IQ dummy  
+            dummy = pd.get_dummies(features['IQ'])
+            IQDummy = pd.DataFrame(columns = range(1,11,1))
+            IQDummy[dummy.columns] = dummy.fillna(0)
+
+            iqlist = list(range(1,11,1))
+            for i,r in enumerate(iqlist):
+                iqlist[i] = "IQ"+str(r)
+            IQDummy.columns = iqlist
+
             #wind_direction to categorical
             dummy = pd.get_dummies(features['wind_direction'])
             windDummy = pd.DataFrame(columns = range(0,361,10))
-            windDummy[dummy.columns] = dummy
-        
-            features = pd.concat([features, windDummy], axis=1)
-            features = features.drop(columns=["wind_direction"])
-        
-            features = features.replace(np.nan, 0)
+            windDummy[dummy.columns] = dummy.fillna(0)
+
+            features = pd.concat([features, windDummy, IQDummy], axis=1)
+            features = features.drop(columns=["wind_direction","IQ"])
+
+            features = features.fillna(0)
         
             # 3- selecting the time period we need in the synop:
             # from the last 12:00 to the next "numberOfObservations" later
-        
             countRow = 0
             x_pred = []
             for indexRow, rowx in features.iterrows():
