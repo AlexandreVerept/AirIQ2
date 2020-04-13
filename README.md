@@ -54,9 +54,9 @@ The datasets we use must be a real time data to be useful for the prediction, bu
 
 | Name                                                         | Source       | Description                                                  | Frequency     | Time frame                                                   |
 | ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ | ------------- | ------------------------------------------------------------ |
-| [*Indice qualité de l'air*](https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/table/?rows=10000&lang=&sort=date_ech) | MEL          | Air index quality                                            | Every day     | Window of 5 years with the dataset the MEL send us and the public data online. |
-| *[Mesures journalières des principaux polluants](https://opendata.lillemetropole.fr/explore/dataset/mesures-journalieres-des-principaux-polluants/table/?sort=date_fin&refine.nom_com=Lille&refine.nom_station=Lille+Leeds)* | MEL          | Value of the main pollutants                                 | Every day     | Window of 2 years.                                           |
-| *[Données SYNOP Essentielles OMM](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=90&id_rubrique=32)* | Météo France | Wide range of weather data including wind, pressure, humidity and temperature | Every 3 hours | Since 1997.                                                  |
+| [*Indice qualité de l'air*](https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/table/?rows=10000&lang=&sort=date_ech) | MEL          | Air index quality.                                           | Every day     | Window of 5 years with the dataset the MEL send us and the public data online. |
+| *[Données SYNOP Essentielles OMM](https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=90&id_rubrique=32)* | Météo France | Wide range of weather data including wind, pressure, humidity and temperature. | Every 3 hours | Since 1997.                                                  |
+| [*Historique de l'indice Atmo*](https://www.atmo-hdf.fr/acceder-aux-donnees/historique-des-indices-de-l-air.html) | ATMO         | Provide an index of the daily measures of NO2, O3, and PM10. | Every day     | Since 2012.                                                  |
 
 
 
