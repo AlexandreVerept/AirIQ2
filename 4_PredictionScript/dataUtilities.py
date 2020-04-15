@@ -3,7 +3,7 @@ import numpy as np
 import requests
 import json
 from logger import Logger
-
+from datetime import datetime
 
 class dataLinker():
     """
@@ -37,20 +37,29 @@ class dataLinker():
         try:
             # convert to dataframe
             dfiq,dfsynop,dfp = pd.DataFrame.from_dict(data[0]),pd.DataFrame.from_dict(data[1]),pd.DataFrame.from_dict(data[2])
-        
+            
+            
             # Shape the data:
             # 1 - mix the datasets: 
             #(please see "MixDatasets.ipynb" in the data cleaning section of our researchs for more information)
             dfiq['date'] = pd.to_datetime(dfiq['date'],utc=True)
             dfsynop['date'] = pd.to_datetime(dfsynop['date'],utc=True)
             dfp['date'] = pd.to_datetime(dfp['date'],utc=True)
-        
+            
+            # make sure we have the today data for the pollutant with ffil:     
+            dfp = dfp.append({"date": datetime.now().strftime("%Y-%m-%d")+" 00:00:00+00:00"},ignore_index=True)
+            dfp['date'] = pd.to_datetime(dfp['date'],utc=True)
+            dfp = dfp.drop_duplicates()
+            dfp = dfp.sort_values(by="date")
+            dfp = dfp.fillna(method = "ffill")            
+                        
             def getDay(row):
-                return(row["date"].year,row["date"].month,row["date"].day)
+                return(row["date"].date())
 
             dfsynop["day"] = dfsynop.apply(lambda row: getDay(row), axis=1)
             dfiq["day"] = dfiq.apply(lambda row: getDay(row), axis=1)
-            dfp["day"] = dfiq.apply(lambda row: getDay(row), axis=1)
+            dfp["day"] = dfp.apply(lambda row: getDay(row), axis=1)
+            
             dfp = dfp.drop(columns="date")
         
             df = pd.merge(dfiq, dfsynop, how='inner', on="day")
@@ -58,7 +67,7 @@ class dataLinker():
             df = df.drop(columns=["date_x","day"])
             df = df.rename(columns={"date_y":"date", "value":"IQ"})
             df = df.drop_duplicates()
-        
+                    
             # 2 - select what we need and shaping
             # Please see "0_ResearchWork\4_SecondModel\ModelLSTM_Alex.ipynb" for more information
         
@@ -111,7 +120,7 @@ class dataLinker():
             x_pred = []
             for indexRow, rowx in features.iterrows():
                 # for each day we found with a value at 12:00
-                if indexRow.hour == 12:
+                if indexRow.hour == 9:
                     # indexes for x (the range is inversed as our data are from the oldest to the newest)
                     batch = range(countRow, countRow - nbNeededObservation, -1)
                     #application
