@@ -18,9 +18,11 @@ In a way to accomplish this, we will use some machine learning and statistical t
 
 See the **[result here !](https://alexandre-verept.shinyapps.io/App-prediction/)** (a bit empty for now as the project is not yet over)
 
-## Final product architecture
+[![Shiny](Pictures/shiny.png)](https://alexandre-verept.shinyapps.io/App-prediction/)
 
-Here is the general structure of our solution:
+## Our project architecture
+
+Here is the general structure of our project:
 
 ![Architecture](Pictures/architecture.png)
 
@@ -33,17 +35,38 @@ Here is the general structure of our solution:
 - <u>Receive useful data</u> from the `Data Collector` to store it in the `Data base`.
 - <u>Provide data</u> to our real time `Prediction script`, <u>receive the results of the predictions</u> and store them in the `Data base`.
 
-**Data Base:**
-
-- <u>MySQL database</u> used to <u>store all the data we need</u>: the different open source datasets, predictions ...
-
 **Front End API:**
 
 - Used to <u>consult freely</u> our predictions stored in the `Database` (without password).
 
+**Data Base:**
+
+- <u>MySQL database</u> used to <u>store all the data we need</u>: the different open source datasets, predictions ...
+
 **Final display:**
 
 - Please see [the result](https://alexandre-verept.shinyapps.io/App-prediction/) here made in R with Shiny.
+
+## Technologies we used
+
+We have used and learned some technologies and tools during this project:
+
+- Most of our scripts are running using the **Google Cloud Platform**, with a mySQL database and several appEngines.
+- Our final visualization is made in R with **Shiny**.
+- Both our APIs use **Flask**.
+- We trained our models using **Google Colab** and **Tensorflow**.
+
+![shiny](Pictures/shinylogo.png)![GCP](Pictures/rsz_gcp.png)![Flask](Pictures/flask.png)![Colab](Pictures/rsz_colab.png)![Tensorflow](Pictures/tf.png)
+
+## What have we learned ?
+
+In a student project, **the most important thing is what we learn from it**, what experience we get:
+
+- As mentioned above, we d**iscovered a lot of technologies by ourselves** to create this product, such as Google Platform for the hosting or Flask for the API. 
+
+- We **improved our skills with Keras and Tensorflow** when it comes to recurrent neural network and architectures with several inputs and outputs.
+
+- As all the work was done within a Covid-19 context, we had to **adapt our methods of teamworking**, especially with the planning.
 
 
 ## Open data
