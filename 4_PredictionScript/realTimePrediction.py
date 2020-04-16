@@ -43,6 +43,7 @@ def call_script():
                 if attempt >= THRESHOLD:
                     Logger.log_error("To many errors while making the prediction")
                     
+
         # post the results to the API
         if success:
             # return the prediction
@@ -64,8 +65,9 @@ def call_script():
 if __name__ == '__main__':
     # Schedule the script to launch everyday at 12:00
     schedule.every().day.at('11:45').do(call_script)
-    #schedule.every(1).minutes.do(call_script)
-
+    
+    call_script()
+    
     # Boucle infinie afin de pouvoir appeler la fonction au moment predefini 
     while True:
         schedule.run_pending()

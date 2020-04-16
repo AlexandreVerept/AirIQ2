@@ -1,0 +1,5 @@
+Flask==1.1.0
+gunicorn==19.6.0
+pandas==0.22.0
+numpy==1.11.2
+pymysql==0.9.3

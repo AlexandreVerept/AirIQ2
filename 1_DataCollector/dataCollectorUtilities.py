@@ -40,7 +40,7 @@ class dataLinker():
         """
         if not data:
             return(None)       
-        response = requests.post(url = self.infos["URL"]+f"infodatacollector/{method}", json = data)
+        response = requests.post(url = self.infos["URL"]+"infodatacollector/{}".format(method), json = data)
         if not response.ok:
             Logger.log_error("Unable to POST the data")
         return(True)

@@ -30,22 +30,41 @@ Here is the general structure of our project:
 
 - This script is running in <u>real time</u> and collect all the data from different APIs, shape them if needed, then send the result to our `Backend API` to be stored in the `Database`.
 
-**Backend API:**
+  ![Compute engine](Pictures/rsz_gcengine.png)
+
+  
+
+**Real-time prediction script:**
+
+- This is the script that run every day in order to <u>make the prediction</u>.
+- It ask all the information needed to the `Data Collector`.
+
+
+
+![Compute engine](Pictures/rsz_gcengine.png)
+
+**Back and front end API:**
 
 - <u>Receive useful data</u> from the `Data Collector` to store it in the `Data base`.
 - <u>Provide data</u> to our real time `Prediction script`, <u>receive the results of the predictions</u> and store them in the `Data base`.
 
-**Front End API:**
+- Used to <u>consult freely</u> our predictions stored in the `Database`.
 
-- Used to <u>consult freely</u> our predictions stored in the `Database` (without password).
+  - Note: our original plan was to create two distinct APIs so you could find some un-updated references to the `Frontend` and `Backend API` elsewhere on this git.
+
+  ![Compute engine](Pictures/rsz_appengine.jpg)
 
 **Data Base:**
 
 - <u>MySQL database</u> used to <u>store all the data we need</u>: the different open source datasets, predictions ...
 
+  ![Compute engine](Pictures/rsz_sqlgc.png)
+
 **Final display:**
 
 - Please see [the result](https://alexandre-verept.shinyapps.io/App-prediction/) here made in R with Shiny.
+
+  ![shiny](Pictures/shinylogo.png)
 
 ## Technologies we used
 

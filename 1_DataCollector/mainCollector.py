@@ -61,7 +61,7 @@ def call_script():
                     if attempt >= THRESHOLD:
                         Logger.log_error("To many errors while asking for Synop")
         
-        Logger.log_info("Import data sucessful")
+        Logger.log_info("Import data sucessfully")
         
         # datalinker
         dl = dataLinker()            
@@ -79,10 +79,13 @@ def call_script():
                     time.sleep(30 * attempt)
                     if attempt >= THRESHOLD:
                         Logger.log_error("To many errors while filling the database")
+        Logger.log_info("Export data sucessfully")
     
 if __name__ == '__main__':
     # Schedule the script to launch everyday at 12:01
     schedule.every().day.at('11:00').do(call_script)
+    
+    call_script()
 
     while True:
         schedule.run_pending()

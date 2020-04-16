@@ -14,7 +14,7 @@ class predictionMaker():
         force to load a new model
         """
         try:
-            self.model = load_model(modelPath)
+            self.model = load_model(modelPath)            
         except:
             Logger.log_error("Unable to load the model in the predictionMaker")
         

@@ -27,9 +27,9 @@ class dataLinker():
         """
         numberOfDays = int(nbNeededObservation/8)+1 # the theorical number of days we need + 1 day for safety
         try:
-            response = requests.get(self.infos["URL"]+f"prediction/{numberOfDays}")
+            response = requests.get(self.infos["URL"]+"prediction/{}".format(numberOfDays))
             if response.ok:
-                data = json.loads(response.content)
+                data = response.json()
         except:
             Logger.log_error("Unable to ask the API for the content of prediction")
             return(None)
