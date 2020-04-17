@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "Alexandre Verept"
+date: "17/04/2020"
+output: html_document
+---
+```{r}
+library(shiny)
+library(ggplot2)
+library(gridExtra)
+library(rjson)
+library(ggthemes)
+library(dplyr)
+require("jsonlite")
+require("httr")
+
+#Import datas from lille
+data=read.csv("https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", head=TRUE, sep=";")
+keeps = c("date_ech", "valeur")
+data = data[keeps]
+names(data)[names(data)=="date_ech"] <- "date"
+data$date <- as.Date(data$date, "%Y-%m-%d")
+
+#Import datas from our API
+url = "https://airiq-271312.appspot.com//"
+command = "allpredictions"
+request = paste(url, command, sep="")
+prediction <- GET(request)
+prediction <- fromJSON(content(prediction, "text"))
+prediction <- lapply(prediction, function(x) {
+  x[sapply(x, is.null)] <- NA
+  unlist(x)
+})
+df_prediction<-as.data.frame(do.call("cbind", prediction))
+df_prediction$value = as.numeric(as.character(df_prediction$value))
+df_prediction$dateofprediction = as.Date(df_prediction$dateofprediction, format = "%Y-%m-%d")
+names(df_prediction)[names(df_prediction)=="dateofprediction"] <- "date"
+names(df_prediction)[names(df_prediction)=="value"] <- "predictValue"
+
+# mix both data:
+concat_df = left_join(df_prediction, data, by="date")
+listOfdf = split(concat_df, concat_df$typeofprediction)
+```
+
+```{r}
+predictionForToday = data.frame()
+
+for (i in 1:3){
+  tmp = listOfdf[[i]]
+  m = max(tmp$date, na.rm = TRUE)
+  l = tmp[tmp$date == m,]
+  predictionForToday = rbind(predictionForToday,l)
+}
+predictionForToday = predictionForToday[c("date","typeofprediction","predictValue")]
+```
+
+```{r}
+predictionForToday
+```
+
+```{r}
+rownames(predictionForToday)  <- NULL
+```
+

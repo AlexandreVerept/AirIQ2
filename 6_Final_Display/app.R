@@ -1,4 +1,6 @@
 library(shiny)
+library(shinydashboard)
+library(DT)
 library(ggplot2)
 library(gridExtra)
 library(rjson)
@@ -28,15 +30,28 @@ df_prediction<-as.data.frame(do.call("cbind", prediction))
 df_prediction$value = as.numeric(as.character(df_prediction$value))
 df_prediction$dateofprediction = as.Date(df_prediction$dateofprediction, format = "%Y-%m-%d")
 names(df_prediction)[names(df_prediction)=="dateofprediction"] <- "date"
-names(df_prediction)[names(df_prediction)=="value"] <- "predictValue"
+names(df_prediction)[names(df_prediction)=="value"] <- "predicted_value"
 
 # mix both data:
 concat_df = left_join(df_prediction, data, by="date")
 listOfdf = split(concat_df, concat_df$typeofprediction)
 
+# predictions to display
+predictionForToday = data.frame()
+for (i in 1:3){
+  tmp = listOfdf[[i]]
+  m = max(tmp$date, na.rm = TRUE)
+  l = tmp[tmp$date == m,]
+  predictionForToday = rbind(predictionForToday,l)
+}
+predictionForToday = predictionForToday[c("date","predicted_value")]
+rownames(predictionForToday)  <- NULL
+
+# UI
+
 ui <- navbarPage("AirIQ - Vizualize our results",
                  # First page
-                 tabPanel("Prediction",
+                 tabPanel("Graph",
                           sidebarLayout(
                             sidebarPanel(
                               selectInput("IQ",
@@ -52,6 +67,13 @@ ui <- navbarPage("AirIQ - Vizualize our results",
                           )
                  ),
                  # Second page
+                 tabPanel("Table",
+                          # Show
+                          mainPanel(
+                            DT::dataTableOutput("predtable")
+                          )
+                 ),
+                 # Third page
                  tabPanel("Air index quality",
                           sidebarLayout(
                             sidebarPanel("Data collected from the MEL API :",
@@ -66,6 +88,7 @@ ui <- navbarPage("AirIQ - Vizualize our results",
                             )
                           )
                  )
+                 
 )
 
 # Define server logic required to draw a histogram
@@ -82,10 +105,10 @@ server <- function(input, output) {
       
       ylim(0,10)+
       
-      geom_line(aes(y=predictValue), 
+      geom_line(aes(y=predicted_value), 
                 color = "darkred", 
                 linetype="twodash") +
-      geom_point(aes(y=predictValue),
+      geom_point(aes(y=predicted_value),
                  shape=21, color="black", 
                  fill="darkred", 
                  size=4)+
@@ -122,6 +145,10 @@ server <- function(input, output) {
     
     grid.arrange(p1,p2, ncol=1)
   })
+  output$predtable = DT::renderDataTable({
+    predictionForToday
+  })
+    
 }
 
 # Run the application 
