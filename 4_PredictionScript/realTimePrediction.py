@@ -22,7 +22,13 @@ def call_script():
     while not success and attempt < THRESHOLD:
         try:
             x_pred,dayConsidered = dl.askForData(32)
-            success = True
+            if (x_pred is not None) and (dayConsidered is not None):
+                success = True
+            else:
+                attempt += 1
+                time.sleep(30 * attempt)
+                if attempt >= THRESHOLD:
+                    raise ValueError()
         except:
             attempt += 1
             time.sleep(30 * attempt)
@@ -36,7 +42,13 @@ def call_script():
         while not success and attempt < THRESHOLD:
             try:
                 y_pred = pm.makePrediction(x_pred)
-                success = True
+                if (y_pred is not None):
+                    success = True
+                else:
+                    attempt += 1
+                    time.sleep(30 * attempt)
+                    if attempt >= THRESHOLD:
+                        raise ValueError()
             except:
                 attempt += 1
                 time.sleep(30 * attempt)
@@ -57,18 +69,19 @@ def call_script():
                     attempt += 1
                     time.sleep(30 * attempt)
                     if attempt >= THRESHOLD:
-                        Logger.log_error("To many errors while making the prediction")
-        
-        Logger.log_info("Prediction sucessful")
+                        Logger.log_error("To many errors while returning the prediction")
+        if success:
+            Logger.log_info("Prediction sucessful")
 
 
 if __name__ == '__main__':
     # Schedule the script to launch everyday at 12:00
     schedule.every().day.at('11:45').do(call_script)
     
-    call_script()
+    #call_script()
     
     # Boucle infinie afin de pouvoir appeler la fonction au moment predefini 
+
     while True:
         schedule.run_pending()
         time.sleep(60)

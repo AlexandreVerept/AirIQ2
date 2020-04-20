@@ -22,7 +22,13 @@ def call_script():
     while not success and attempt < THRESHOLD:
         try:
             iq = myIqCollector.collectRealtimeIQ(5)
-            success = True
+            if iq is not None:
+                success = True
+            else:
+                attempt += 1
+                time.sleep(30 * attempt)
+                if attempt >= THRESHOLD:
+                    raise ValueError()
         except:
             attempt += 1
             time.sleep(30 * attempt)
@@ -39,7 +45,13 @@ def call_script():
         while not success and attempt < THRESHOLD:
             try:
                 pollutant = myPollutantCollector.collectRealtimePollutant(5)
-                success = True
+                if pollutant is not None:
+                    success = True
+                else:
+                    attempt += 1
+                    time.sleep(30 * attempt)
+                    if attempt >= THRESHOLD:
+                        raise ValueError()
             except:
                 attempt += 1
                 time.sleep(30 * attempt)
@@ -54,13 +66,20 @@ def call_script():
             while not success and attempt < THRESHOLD:
                 try:
                     synop = mySynopCollector.collectRealtimeSynop(5)
-                    success = True
+                    if synop is not None:
+                        success = True
+                    else:
+                        attempt += 1
+                        time.sleep(30 * attempt)
+                        if attempt >= THRESHOLD:
+                            raise ValueError()
                 except:
                     attempt += 1
                     time.sleep(30 * attempt)
                     if attempt >= THRESHOLD:
                         Logger.log_error("To many errors while asking for Synop")
-        
+                        
+    if success:
         Logger.log_info("Import data sucessfully")
         
         # datalinker
@@ -79,6 +98,7 @@ def call_script():
                     time.sleep(30 * attempt)
                     if attempt >= THRESHOLD:
                         Logger.log_error("To many errors while filling the database")
+    if success:
         Logger.log_info("Export data sucessfully")
     
 if __name__ == '__main__':
