@@ -4,6 +4,8 @@
 
 Here you can find the API that receive various data from the `DataCollector` or our `PredictionScript` in a way to store them in our `Database`.
 
+Here is the [link to the API](https://airiq-271312.appspot.com/)
+
 |                           Command                            |                       Type of request                        | Description                                                  | Return example                                               |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------- | ------------------------------------------------------------ |
 |                             `/`                              |                             GET                              | Root of the API                                              | *"Welcome to our API"*                                       |
