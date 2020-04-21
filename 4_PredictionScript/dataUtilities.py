@@ -74,6 +74,8 @@ class dataLinker():
             features_considered = ['IQ','pressure','wind_direction','wind_force','humidity','temperature','NO2','O3','PM10']
             features = df[features_considered]
             features.index = df['date']
+            
+            print(features)
 
             dataset_test = features.values
 

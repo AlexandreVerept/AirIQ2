@@ -74,7 +74,7 @@ ui <- navbarPage("AirIQ - Vizualize our results",
                           )
                  ),
                  # Third page
-                 tabPanel("Air index quality",
+                 tabPanel("Air quality index",
                           sidebarLayout(
                             sidebarPanel("Data collected from the MEL API :",
                                          dateRangeInput('dateRangeIQ',
@@ -101,27 +101,29 @@ server <- function(input, output) {
                    "Prediction J+3" = 3)
     
     #graph
+    colors = c("predicted" = "darkred","real" = rgb(0.1,0.7,0.1,0.8))
     p = ggplot(data=listOfdf[[number]], aes(x=date)) +
       
       ylim(0,10)+
       
-      geom_line(aes(y=predicted_value), 
-                color = "darkred", 
+      geom_line(aes(y=predicted_value,color = "predicted"), 
                 linetype="twodash") +
       geom_point(aes(y=predicted_value),
                  shape=21, color="black", 
                  fill="darkred", 
                  size=4)+
       
-      geom_line(aes(y = valeur), 
-                color=rgb(0.1,0.7,0.1,0.8))  +
+      geom_line(aes(y = valeur,color="real"))  +
       geom_point(aes(y=valeur),
                  shape=21, color="black", 
                  fill=rgb(0.1,0.7,0.1,0.8), 
                  size=4)+
       ggtitle(sprintf("Prediction J+%s",number))+
       
-      theme_hc()
+      theme_hc()+
+      labs(x="Day", y="Index", color = "Legend:") +
+      scale_color_manual(values = colors)
+    
     grid.arrange(p,ncol=1)
   })
   

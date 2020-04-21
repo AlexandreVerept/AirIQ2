@@ -55,7 +55,7 @@ def call_script():
                 if attempt >= THRESHOLD:
                     Logger.log_error("To many errors while making the prediction")
                     
-
+        
         # post the results to the API
         if success:
             # return the prediction
