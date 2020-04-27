@@ -44,7 +44,7 @@ for (i in 1:3){
   l = tmp[tmp$date == m,]
   predictionForToday = rbind(predictionForToday,l)
 }
-predictionForToday = predictionForToday[c("date","predicted_value")]
+predictionForToday = predictionForToday[c("date","predicted_value","typeofprediction")]
 rownames(predictionForToday)  <- NULL
 
 # UI
