@@ -12,6 +12,7 @@ import time
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
 THRESHOLD = 5
+DAYS = 5
 
 def call_script():
     # collect iq
@@ -21,7 +22,7 @@ def call_script():
     attempt = 0
     while not success and attempt < THRESHOLD:
         try:
-            iq = myIqCollector.collectRealtimeIQ(5)
+            iq = myIqCollector.collectRealtimeIQ(DAYS)
             if iq is not None:
                 success = True
             else:
@@ -44,7 +45,7 @@ def call_script():
         attempt = 0
         while not success and attempt < THRESHOLD:
             try:
-                pollutant = myPollutantCollector.collectRealtimePollutant(5)
+                pollutant = myPollutantCollector.collectRealtimePollutant(DAYS)
                 if pollutant is not None:
                     success = True
                 else:
@@ -65,7 +66,7 @@ def call_script():
             attempt = 0
             while not success and attempt < THRESHOLD:
                 try:
-                    synop = mySynopCollector.collectRealtimeSynop(5)
+                    synop = mySynopCollector.collectRealtimeSynop(DAYS)
                     if synop is not None:
                         success = True
                     else:

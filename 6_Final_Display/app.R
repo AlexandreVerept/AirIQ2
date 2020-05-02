@@ -8,13 +8,15 @@ library(ggthemes)
 library(dplyr)
 require("jsonlite")
 require("httr")
+library(anytime)
 
 #Import datas from lille
 data=read.csv("https://opendata.lillemetropole.fr/explore/dataset/indice-qualite-de-lair/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true", head=TRUE, sep=";")
 keeps = c("date_ech", "valeur")
 data = data[keeps]
 names(data)[names(data)=="date_ech"] <- "date"
-data$date <- as.Date(data$date, "%Y-%m-%d")
+# data$date <- as.Date(data$date, "%Y-%m-%d") pas timestamp
+data["date"] = lapply(data["date"],anydate)
 
 #Import datas from our API
 url = "https://airiq-271312.appspot.com//"

@@ -2,6 +2,7 @@ import pandas as pd
 import urllib.request
 import json
 from logger import Logger
+from datetime import datetime
     
 class iqCollector():    
     def collectRealtimeIQ(self,number_of_days=2):
@@ -27,7 +28,7 @@ class iqCollector():
                 listeDesFields.append(r['fields']) 
             dico = []
             for k in listeDesFields:
-                dico.append({'date' : k['date_ech'][0:10],'value' : k['valeur']})
+                dico.append({'date' : datetime.fromtimestamp(int(k['date_ech'])).strftime('%Y-%m-%d'),'value' : k['valeur']})
             df = pd.DataFrame(dico)
         except:
             Logger.log_error("Error while processing the MEL data from the API (iqCollector - collectRealtimeIQ)")
